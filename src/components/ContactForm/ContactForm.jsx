@@ -2,11 +2,11 @@
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 // імпорт генератор екшену
-import { addContact } from 'redux/contactsSlice';
-import { getContacts } from 'redux/selectors';
+import { addContact } from 'redux/operations';
+import { selectContacts } from 'redux/selectors';
 
 export default function ContactForm() {
-  const contacts = useSelector(getContacts);
+  const contacts = useSelector(selectContacts);
   const dispatch = useDispatch();
 
   const checkIsInContacts = newName =>
@@ -17,7 +17,7 @@ export default function ContactForm() {
     event.preventDefault();
     const form = event.target;
     const name = form.name.value;
-    const number = form.number.value;
+    const phone = form.number.value;
     const isInContacts = checkIsInContacts(name);
 
     // не додаємо контакт
@@ -27,7 +27,7 @@ export default function ContactForm() {
     }
 
     // викликаємо генератор екшену та передаємо текст завдання для поля payload
-    dispatch(addContact(name, number));
+    dispatch(addContact({ name, phone }));
 
     // Очистка форми
     form.reset();
